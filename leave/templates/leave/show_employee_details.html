@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card mb-3 p-3 shadow-sm" style="overflow-y: scroll; max-height: 500px; max-width: 50%; margin-left: 25%; color: white; background: rgba(0,0,0,0.3)" dir="rtl">
+    <h2>کد کاربری: {{ user.user_id }}</h2>
+    <h2>نام و نام خانوادگی: {{ user.Full_name }}</h2>
+    <p>شماره تماس: {{ user.user_phone }}</p>
+    <p>ساعات باقیمانده مرخصی ماهانه: {{ user.number_of_month_leave_left }}</p>
+    <p>ساعات باقیمانده مرخصی سالانه: {{ user.number_of_year_leave_left }}</p>
+    <p>ساعات باقیمانده مرخصی استعلاجی: {{ user.number_of_sick_leave_left }}</p>
+    {% if request.user.is_admin %}
+        <p>تعداد مرخصی های بدون حقوق گرفته شده: {{ user.number_of_with_out_pay }}</p>
+    {% endif %}
+    <p>ایمیل: {{ user.email }}</p>
+
+
+    <h2>ویرایش اطلاعات کاربری</h2>
+<div>
+    <form method="post">
+        {% csrf_token %}
+        <!--<div class="form-group col-md-4">
+            <label for="user_id">کد کاربری:</label>
+            <input type="text" name="user_id" value="{{ user.user_id }}" class="form-control" style="background: transparent; color: white;">
+        </div>-->
+
+        <div class="form-group col-md-4">
+            <label for="Full_name">نام و نام خانوادگی:</label>
+            <input type="text" name="Full_name" value="{{ user.Full_name }}" class="form-control" style="background: transparent; color: white;">
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="email">ایمیل:</label>
+            <input type="text" name="email" value="{{ user.email }}" class="form-control" style="background: transparent; color: white;">
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="user_phone">شماره تماس:</label>
+            <input type="text" name="user_phone" value="{{ user.user_phone }}" class="form-control" style="background: transparent; color: white;">
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="number_of_month_leave_left">ساعات باقیمانده استحقاقی مرخصی ماهانه:</label>
+            <input type="text" name="number_of_month_leave_left" value="{{ user.number_of_month_leave_left }}" class="form-control" style="background: transparent; color: white;">
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="number_of_year_leave_left">ساعات باقیمانده استحقاقی مرخصی سالانه:</label>
+            <input type="text" name="number_of_year_leave_left" value="{{ user.number_of_year_leave_left }}" class="form-control" style="background: transparent; color: white;">
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="number_of_sick_leave_left">ساعات باقیمانده مرخصی استعلاجی سالانه:</label>
+            <input type="text" name="number_of_sick_leave_left" value="{{ user.number_of_sick_leave_left }}" class="form-control" style="background: transparent; color: white;">
+        </div>
+        <input style="margin-right:650px;" type="submit" value="ذخیره" class="btn btn-primary">
+    </form>
+
+</div>
+</div>
+{% endblock %}

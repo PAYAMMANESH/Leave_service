@@ -1,0 +1,16 @@
+{% if messages %}
+    <div id="messages-container" style="width: 70%; margin: 0 auto;">
+        {% for msg in messages %}
+            <p class="alert alert-{{ msg.tags }}" style="text-align: center;">{{ msg }}</p>
+        {% endfor %}
+    </div>
+    <script>
+        // Automatically remove messages after 6 seconds
+        setTimeout(function() {
+            var messagesContainer = document.getElementById('messages-container');
+            if (messagesContainer) {
+                messagesContainer.innerHTML = '';
+            }
+        }, 6000);
+    </script>
+{% endif %}

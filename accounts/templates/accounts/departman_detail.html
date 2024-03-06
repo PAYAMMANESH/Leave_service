@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid d-flex flex-column align-items-center justify-content-center" style="min-height: calc(10vh - 150px);">
+    <div class="col-md-7 p-3 rounded shadow-lg" style="background: rgba(0,0,0,0.3);border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); max-width: 70%; margin-bottom: 20px;" dir="rtl">
+        <div class="d-flex justify-content-between mb-3">
+            <h2 style="font-size: 24px;">کد دپارتمان: {{ departman.department_code }}</h2>
+            <h2 style="font-size: 24px;">تعداد اعضا: {{ user.count }}</h2>
+        </div>
+       <h1 style="font-size: 36px; text-align: center;">  دپارتمان {{ departman.department_name }}</h1>
+
+    </div>
+</div>
+    {% if request.user.is_admin %}
+    <div style="text-align: right; margin-right: 100px; margin-top: 10px;">
+        <a href="{% url 'accounts:show_manager' departman.department_code %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" style="margin-bottom: 10px;">افزودن مدیر</a><br>
+        <a href="{% url 'accounts:show_employee' departman.department_code %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" style="margin-bottom: 10px;">افزودن کاربر</a><br>
+        <a href="{% url 'accounts:department_employee' departman.department_code %}" class="btn btn-danger btn-lg active" role="button" aria-pressed="true" style="margin-bottom: 10px;">حذف کاربر</a><br>
+        <a href="{% url 'accounts:departman_delete' departman.department_code %}" class="btn btn-danger btn-lg active" role="button" aria-pressed="true" style="margin-bottom: 10px;">حذف دپارتمان</a><br>
+    </div>
+{% endif %}
+
+
+
+
+
+<div class="container-fluid d-flex align-items-center justify-content-center" style="background: rgba(0,0,0,0);margin-top: -130px;" dir="rtl">
+    <div class="col-md-7 rounded shadow-lg" style="background:rgba(0,0,0,0);border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); max-width: 70%; overflow-y: scroll;max-height: 380px;">
+
+        {% if user %}
+            {% for person in user %}
+                {% if person.is_MiddleManager %}
+                    <div class="card mb-3 p-3 shadow-sm" style="background-color: rgba(0,0,0,0.1); border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); margin-bottom: 10px;margin-top: 10px;">
+                        <div style="background: rgba(0,0,0,0);padding: 10px; border-radius: 10px; margin-bottom: 10px; ">
+                            <h3 style="font-weight: bold; color: lightgreen;" ><a style="text-decoration: none; color:lightgreen;" href="{% url 'leave:show_employee_detail' person.user_id %}">نام مدیر: {{ person.Full_name }}</a></h3>
+                            <p style="font-size: 14px;"> کدکاربری: {{ person.user_id }}</p>
+                            <p style="font-size: 14px;">شماره تماس : {{ person.user_phone }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            {% for person in user %}
+                {% if not person.is_MiddleManager %}
+                    <div class="card mb-3 p-3 shadow-sm" style="background-color: rgba(0,0,0,0.1); border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); margin-bottom: 10px;">
+                        <h3><a style="text-decoration: none; color:white;" href="{% url 'leave:show_employee_detail' person.user_id %}">نام کاربر: {{ person.Full_name }}</a></h3>
+                        <p style="font-size: 14px;">کدکاربری: {{ person.user_id }}</p>
+                        <p style="font-size: 14px;">شماره تماس: {{ person.user_phone }}</p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p>برای این دپارتمان کاربری یافت نشد</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

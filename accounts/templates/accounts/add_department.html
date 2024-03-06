@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-50" style="padding: 50px 0;">
+    <div class="col-md-4 p-3 rounded  shadow-lg" style="min-height: 150px;background: rgba(0,0,0,0.3)" dir="rtl">
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            {{ form.as_p }}
+
+
+                <input type="submit" value="افزودن" class="btn btn-success" style="margin-top: 20px;justify-self: right">
+
+        </form>
+    </div>
+</div>
+    <style>
+        .form-group select[name="department_name"]{background: transparent !important;}
+    </style>
+{% endblock %}

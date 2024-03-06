@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+   <div class="col-md-4 p-3 rounded  shadow-lg" style="margin-left:35%;background: rgba(0,0,0,0.3);backdrop-filter: blur(5px);overflow-y: scroll; max-height: 600px;">
+    {% for employee in user %}
+        <div class="card mb-3 p-3 shadow-sm" style="background: rgba(0,0,0,0.1);" dir="rtl">
+        <a href="{% url 'accounts:delete_employee' employee.user_id dp_code %}" style="font-size: 28px;  text-decoration: none; color: white;">
+            <h2 onmouseover="this.style.fontSize='32px'; this.style.color='blue';" onmouseout="this.style.fontSize='28px'; this.style.color='white';"> نام کاربر:{{ employee.Full_name }}</h2>
+            <h2>کد کاربر:{{ employee.user_id }}</h2>
+        </a><br>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

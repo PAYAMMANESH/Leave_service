@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+ <div class="card mb-2 p-3 rounded shadow-sm" style="background: rgba(0,0,0,0.3); max-width: 50%;max-height:550px;overflow-y:scroll;margin-left: 25%;"  dir="rtl" >
+     <h2 style="color: white;">نام کاربر: {{ leave.user.Full_name }}</h2><br>
+    <h2 style="color: white;">کد کاربری: {{ leave.user.user_id }}</h2><br>
+    <h2 style="color: white;">نوع مرخصی: {{ leave.Leave_type }}</h2><br>
+    <h2 style="color: white;">مدت زمان: {{ leave.Leave_type_type }}</h2><br>
+    <h2 style="color: white;">دلیل مرخصی: {{ leave.Reason }}</h2><br>
+    <h2 style="color: white;">تاریخ شروع: {{ leave.from_day|date:"Y/m/d" }}</h2><br>
+    <h2 style="color: white;">تاریخ پایان: {{ leave.to_day|date:"Y/m/d" }}</h2><br>
+    <h2 style="color: white;">ساعت شروع: {{ leave.from_hour }}</h2><br>
+    <h2 style="color: white;">ساعت پایان: {{ leave.to_hour }}</h2><br>
+    <form id="leaveForm" method="post" action="" novalidate style="color: white;">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" id="acceptButton" class="btn btn-primary">تایید</button>
+        <button type="submit" id="declineButton" class="btn btn-danger">رد کردن</button>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // تعریف عملکرد برای دکمه‌های "Accept" و "Decline"
+        $(document).ready(function () {
+            $("#leaveForm").on("submit", function (e) {
+                e.preventDefault(); // جلوگیری از ارسال فرم به صورت معمول
+                var form = $(this);
+                var url = form.attr("action");
+                var formData = form.serialize();
+
+                // بر اساس دکمه کلیک شده، مسیر مناسب را تعیین کنید
+                var buttonId = $(document.activeElement).attr("id");
+                var redirectUrl = buttonId === "acceptButton" ? "{% url 'leave:accept_request' leave.id %}" : "{% url 'leave:decline_request' leave.id %}";
+
+                // ارسال درخواست AJAX
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: formData,
+                    success: function (response) {
+                        // درخواست با موفقیت انجام شده است
+                        // به مسیر مناسب منتقل شوید
+                        window.location.href = redirectUrl;
+                    },
+                    error: function (error) {
+                        // مدیریت خطاها در صورت لزوم
+                        console.error("Error:", error);
+                    }
+                });
+            });
+        });
+    </script>
+ </div>
+{% endblock %}

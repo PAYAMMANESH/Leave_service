@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <a href="{% url 'leave:addleave' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" style="margin-bottom: 10px; margin-left: 88%;">
+            درخواست مرخصی شخصی</a><br>
+        {% if request.user.is_admin or request.user.is_MiddleManager %}
+            <a href="{% url 'leave:add_employee_leave' %}" class="btn btn-primary btn-lg active" role="button"
+               aria-pressed="true" style="margin-left: 88%">افزودن مرخصی کارمندان</a><br>
+
+        {% endif %}
+
+
+
+
+            <div class="card mb-3 p-3 shadow-sm" style="margin-left: 30%;margin-right: 30%; backdrop-filter: blur(5px);background: rgba(0, 0, 0, 0.3);">
+                {% if request %}
+                    {% if userrequest %}
+                        <div class="rounded shadow-sm p-3" style="background-color: rgba(0, 0, 0, 0); max-height:450px;overflow-y: scroll;" dir="rtl">
+                            {% for re in userrequest reversed %}
+                                <div class="card mb-3 p-3 shadow-sm" style="backdrop-filter: blur(5px);background-color: rgba(0, 0, 0, 0.1);" >
+                                    <a href="{% url 'leave:requestdetail' re.id %}" style="text-decoration: none; background-color: rgba(0, 0, 0, 0)">
+                                        <h2 onmouseover="this.style.fontSize='28px';" onmouseout="this.style.fontSize='20px';" style="color: {% if re.state == 'pending' %}orange{% elif re.state == 'accept' %}lightgreen{% else %}red{% endif %}; background-color: rgba(0, 0, 0, 0)">{{ re.Reason|slice:":20" }}</h2>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <h3 style="color: white" dir="rtl"> درخواست ثبت شده ای موجود نیست </h3>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+
+{% endblock %}
+
+

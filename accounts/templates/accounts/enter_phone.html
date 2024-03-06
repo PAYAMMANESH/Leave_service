@@ -1,0 +1,13 @@
+
+{% extends 'base.html' %}
+{% block content %}
+    <div dir="rtl" class="col-md-4 p-3 rounded shadow-lg" style="max-height: 300px; max-width: 50%; margin-left: 33%; margin-right: 25%; background: rgba(0,0,0,0.3);">
+        <form action="" method="POST" novalidate>
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+            <input style="margin-right: 450px;margin-top: 10px;" type="submit" value="ثبت" class="btn btn-primary">
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+
+    <!-- Include your other CSS and JavaScript links here -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+    <style>
+          @font-face {
+            font-family: 'Iransans';
+            src: url('{% static 'fonts/Sans a4fran3.woff' %}') format('woff');
+            /* Add additional font formats as needed */
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* Apply the font to specific elements or globally */
+        body, .navbar {
+            font-family: 'Iransans', sans-serif; /* Use the 'Iransans' font */
+        }
+        .navbar {
+            height: 70px; /* Adjust the height as needed */
+
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            color: white;
+            text-align: center;
+            padding: 15px 15px; /* Vertical and horizontal padding */
+            font-size: 16px; /* Font size of navbar links */
+            text-decoration: none;
+            transition: font-size 0.3s, color 0.3s;
+            display: inline-block; /* Display links next to each other */
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover {
+            font-size: 18px; /* Font size of navbar links on hover */
+            color: #222826; /* Color of navbar links on hover */
+            text-decoration: none;
+        }
+
+        /* To center the text vertically and horizontally */
+        .navbar-dark .navbar-nav {
+            flex-direction: row; /* Display links in a row */
+            align-items: center; /* Center-align vertically */
+            justify-content: center; /* Center-align horizontally */
+            height: 100%; /* Make the navbar-nav take full height */
+        }
+
+        /* Equal spacing on the left and right sides */
+        .navbar-collapse {
+            justify-content: space-between;
+        }
+
+        /* Custom background color */
+        .custom-navbar-bg {
+            background-color: rgba(21, 114, 254, 0.8);
+        }
+        .navbar-logo {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark custom-navbar-bg"> <!-- Use the custom class here -->
+    <div class="container-fluid">
+        <a class="navbar-brand navbar-logo" href="#">
+            <img src="{% static 'accounts/images/logo.png' %}" alt="Company Logo" width="70">
+            <!-- Adjust the 'src' attribute with the actual path to your logo image -->
+        </a>
+        <div class="navbar-nav" >
+            {% if request.user.is_authenticated %}
+                    <a class="nav-link active" href="{% url 'accounts:userchange' request.user.user_id %}" >{{ user.Full_name}}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            {% endif %}
+        </div>
+        <div class="navbar-collapse">
+            <div class="navbar-nav">
+                {% if request.user.is_authenticated %}
+                    <a class="nav-link active" href="{% url 'accounts:userhome' %}">داشبورد</a>
+                {% else %}
+                    <a class="nav-link active" href="{% url 'accounts:home' %}">داشبورد</a>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                    <!--<a class="nav-link active" href="{% url 'accounts:userchange' request.user.user_id %}">{{ user.Full_name}}</a>&nbsp;&nbsp;&nbsp;&nbsp;-->
+                    <a class="nav-link active" href="{% url 'accounts:userlogout' %}">خروج</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a class="nav-link active" href="{% url 'accounts:changepass' %}">تغییر رمز عبور</a>&nbsp;&nbsp;
+                    <a class="nav-link active" href="{% url 'leave:userequest' %}">درخواست مرخصی</a>&nbsp;&nbsp;
+                    {% if request.user.is_admin == True or request.user.is_MiddleManager == True %}
+                        <a class="nav-link active" href="{% url 'accounts:departman' %}">دپارتمان</a>
+                        <a class="nav-link active" href="{% url 'leave:checkrequest' %}">صندوق دریافتی</a>
+                        <a class="nav-link active" href="{% url 'leave:show_employee' %}">کارمندان</a>
+                    {% endif %}
+                {% else %}
+                    <a class="nav-link active" href="{% url 'accounts:userlogin' %}">ورود</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Your page content goes here -->
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid d-flex  justify-content-center" style="min-height: 80vh;max-height: 600px;">
+    <div class="col-md-8 rounded shadow-lg p-4 mb-4" style=" background: rgba(0,0,0,0.3);border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); max-height: 600px;min-height: 200px; overflow-y: scroll;">
+        {% if leave %}
+            {% for item in leave %}
+                <div dir="rtl"  class="card mb-2 p-3 rounded shadow-sm" style="background:rgba(0,0,0,0.1); border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 15px; margin-bottom: 10px;max-height: 500px;overflow-y: auto" >
+                    <a   href="{% url 'leave:show_user_request' item.id %}" style="text-decoration: none;">
+                        <h4 class="mb-1" style="font-size: 1.5rem; font-weight: bold; color:white;"onmouseover="this.style.fontSize='18px'; this.style.color='blue';" onmouseout="this.style.fontSize='15px'; this.style.color='white';">نام درخواست دهنده: {{ item.user.Full_name }}  </h4>
+                        <h4 class="mb-1" style="font-size: 1.5rem; font-weight: bold; color:white;">کد کاربری: {{ item.user.user_id }}</h4>
+                        <h5 class="mb-1" style="font-size: 1.2rem; color:white;">توضیحات: {{ item.Reason }}</h5>
+
+                    </a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h3 style="background: rgba(0,0,0,0);color: white;"  dir="rtl">صندوق دریافتی خالی است</h3>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

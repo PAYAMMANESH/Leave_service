@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5" style="max-width: 50%; background: rgba(0,0,0,0)">
+    <div class="row justify-content-center" style="background: rgba(0,0,0,0)">
+        <div class="col-md-6" style="background: rgba(0,0,0,0)">
+            <div class="card shadow p-4 rounded-lg" dir="rtl" style="background: rgba(0,0,0,0.3)">
+                <h2 class="mb-4" style="color: white;">ثبت کاربر</h2>
+                <form action="" method="post" novalidate class="">
+                    {% csrf_token %}
+
+                    <!-- Full Name Field -->
+                    <div class="form-group">
+                        <label style="color: white;">نام و نام خانوادگی:</label>
+                        <br>
+                        {{ form.Full_name }}
+                    </div>
+
+                    <!-- User ID Field -->
+                    <div class="form-group">
+                        <label style="color: white;">شناسه کاربری:</label>
+                        <br>
+                        {{ form.user_id }}
+                    </div>
+
+                    <!-- User Phone Field -->
+                    <div class="form-group">
+                        <label style="color: white;">شماره تلفن:</label>
+                        <br>
+                        {{ form.user_phone }}
+                    </div>
+
+                    <div class="form-group">
+                        <label style="color: white;">ایمیل:</label>
+                        <br>
+                        {{ form.email }}
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group password-group">
+                        <label style="color: white;">رمز عبور:</label>
+                        <br>
+                        <div class="input-group">
+                            {{ form.password }}
+                            <div class="input-group-append">
+                                <span class="input-group-text password-toggle-link" style="background: transparent; color: white; border: none;">نمایش</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Department Code Field
+                    <div class="form-group">
+                        <label style="color: white;">کد دپارتمان</label>
+                        <br>
+                        {{ form.department_code }}
+                    </div>-->
+                    <button type="submit" class="btn btn-success mt-3" style="margin-right: 300px;">ثبت</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Password toggle script
+    const passwordField = document.querySelector('.password-group input[type="password"]');
+    const toggleLink = document.querySelector('.password-toggle-link');
+
+    toggleLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        const fieldType = passwordField.getAttribute('type');
+        if (fieldType === 'password') {
+            passwordField.setAttribute('type', 'text');
+            toggleLink.textContent = 'پنهان';
+        } else {
+            passwordField.setAttribute('type', 'password');
+            toggleLink.textContent = 'نمایش';
+        }
+    });
+</script>
+
+<style>
+    /* Remove border from input fields */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+
+        background: rgba(0,0,0,0.5);
+        color: white;
+    }
+
+
+</style>
+
+{% endblock %}

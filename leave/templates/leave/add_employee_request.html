@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="col-md-4 p-3 rounded shadow-lg" style="overflow-y:scroll;max-height: 600px;max-width:50%; margin-left: 33%;margin-right: 25%; background: rgba(0,0,0,0.3);">
+        {% for user in form %}
+            <div class="card mb-3 p-3 shadow-sm" style="background: rgba(0,0,0,0.1); text-decoration: none;" dir="rtl">
+                <a href="{% url 'leave:add_and_accept_leave' user.user_id %}">
+                    <h2>{{ user.Full_name }}</h2>
+                    <h2>{{ user.user_id }}</h2>
+                </a><br>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+

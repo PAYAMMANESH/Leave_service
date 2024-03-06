@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-md-4 p-3 rounded shadow-lg" style="overflow-y:scroll;max-height: 600px;max-width:50%; margin-left: 33%;margin-right: 25%; background: rgba(0,0,0,0.3);">
+    {% for employee in user %}
+        <div class="card mb-3 p-3 shadow-sm" style="background: rgba(0,0,0,0.1); text-decoration: none;" dir="rtl">
+            <a style="color: white; text-decoration: none;" href="{% url 'leave:show_employee_detail' employee.user_id %}" dir="rtl">
+                <h2 onmouseover="this.style.fontSize='32px'; this.style.color='blue';" onmouseout="this.style.fontSize='28px'; this.style.color='white';">نام : {{ employee.Full_name }}</h2>
+                <h2> شماره کاربری : {{ employee.user_id }}</h2>
+            </a>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

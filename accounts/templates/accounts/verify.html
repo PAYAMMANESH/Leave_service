@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div dir="rtl" class="col-md-4 p-3 rounded shadow-lg" style="max-height: 300px; max-width: 50%; margin-left: 33%; margin-right: 25%; background: rgba(0,0,0,0.3);">
+    <form action="" method="POST" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_code">کد ارسالی:</label>
+            <input type="number" name="code" id="id_code" class="form-control" style="background: transparent; color: white;">
+        </div>
+        <input style="margin-right: 450px" type="submit" value="ثبت" class="btn btn-primary">
+    </form>
+</div>
+{% endblock %}

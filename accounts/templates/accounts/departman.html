@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container-fluid d-flex justify-content-end mt-4" style="background: rgba(0,0,0,0);">
+        <div class="col-md-4">
+            {% if request.user.is_admin %}
+                <a href="{% url 'accounts:Add_departman' %}" class="btn btn-primary btn-lg active" role="button"
+                   aria-pressed="true" style="margin-right: 50px;">افزودن دپارتمان</a>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if departman|length == 1 %}
+        <div class="container-fluid d-flex align-items-center justify-content-center"
+             style="background: rgba(0,0,0,0);min-height: calc(10vh - 150px);">
+            <div class="col-md-4" style="background: rgba(0,0,0,0);">
+                <div class="card mb-3 p-3 shadow-sm" style="background: rgba(0,0,0,0.4);" dir="rtl">
+                    <a href="{% url 'accounts:departman_detail' departman.0.department_code %}"
+                       style="font-size: 36px; font-family: 'Your Desired Font', sans-serif; text-decoration: none; color: white; text-align: center; display: block;" onmouseover="this.style.fontSize='42px'; this.style.color='blue';" onmouseout="this.style.fontSize='36px'; this.style.color='white';">{{ departman.0.department_name }}</a>
+                    <!-- Display attenders count and managers -->
+                    <p style="color: white">تعداد کاربران: {{ departman.0.user_department.count }}</p>
+                    <p style="color: white">مدیران:
+
+                        {% for user in departman.0.user_department.all %}
+                            {% if user.is_MiddleManager %}
+                                {{ user.Full_name }}
+                            {% endif %}
+                        {% endfor %}
+
+
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="container-fluid d-flex align-items-center justify-content-center"
+             style="background: rgba(0,0,0,0);min-height: calc(10vh - 150px);">
+            <div class="col-md-4 p-3 rounded  shadow-lg"
+                 style="background: rgba(0,0,0,0.3);backdrop-filter: blur(5px);overflow-y: scroll; max-height: 55vh;">
+                {% if departman %}
+                    {% for dp in departman %}
+                        <div class="card mb-3 p-3 shadow-sm" style="background: rgba(0,0,0,0.1);" dir="rtl">
+                           <a href="{% url 'accounts:departman_detail' dp.department_code %}" style="font-size: 28px; font-family: 'Your Desired Font', sans-serif; text-decoration: none; color: white;transition: font-size 0.3s, color 0.3s;" onmouseover="this.style.fontSize='42px'; this.style.color='blue';" onmouseout="this.style.fontSize='28px'; this.style.color='white';">نام دپارتمان:{{ dp.department_name }}</a>
+
+                            <!-- Display attenders count and managers -->
+                            <p style="color: white">تعداد کاربران: {{ dp.user_department.count }}</p>
+                            <p style="color: white">مدیران:
+
+                                    {% for user in dp.user_department.all %}
+                                        {% if user.is_MiddleManager %}
+                                            {{ user.Full_name }},
+                                        {% endif %}
+                                    {% endfor %}
+
+                            </p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h3 class="text-center" style="background: rgba(0,0,0,0.3);color: white">دپارتمانی وجود ندارد</h3>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

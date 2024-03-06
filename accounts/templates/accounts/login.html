@@ -1,0 +1,101 @@
+<!doctype html>
+{% load static %}
+{% include "inc/messages.html" %}
+<html lang="en">
+<head>
+
+    <title>صفحه ورود</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'images/icon.png' %}" type="image/png" style="width: 600px; height: 600px; filter: brightness(150%);">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+
+    <style>
+        /* Set the background image */
+        body {
+            background: url({% static 'accounts/images/login.png' %}) no-repeat center center fixed;
+            background-size: 1000px;
+            background-color: #222826;
+            backdrop-filter: blur(60px);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position-x: 50%;
+            background-position-y: 80px;
+            overflow: hidden;
+
+
+        }
+
+        /* Add the logo image */
+
+
+        /* Style the content container with glass effect */
+        .content-container {
+            background-color: rgba(0, 0, 0, 0.3); /* افزودن پس زمینه شفاف با رنگ مشکی با opacity */
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px); /* افکت شیشه‌ای */
+
+        }
+
+        /* Style the form elements */
+        .signin-form {
+            background-color: transparent; /* فرم شفاف شود */
+        }
+        .ftco-section {
+            background: none; /* Remove the background image or color */
+        }
+
+        .login-wrap {
+            background: transparent !important; /* Make the login form transparent */
+        }
+
+    </style>
+</head>
+<body>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="login-wrap p-0">
+                    <h3 class="mb-4 text-center">حساب کاربری دارید؟</h3>
+                    <!-- Wrap the content in a container for styling -->
+                    <div class="content-container" >
+                        <form action="" class="signin-form" method="post" novalidate>
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="user_id"  placeholder="نام کاربری" required>
+                            </div>
+                            <div class="form-group">
+                                <input id="password-field" type="password" class="form-control" name="password"  placeholder="رمز عبور" required>
+                                <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            </div>
+                            <div class="form-group">
+                                <button class="form-control btn btn-primary submit px-3">ورود</button>
+                            </div>
+                            <div class="form-group d-md-flex">
+                                <div class="w-50 text-md-right">
+                                    <a href="{% url 'accounts:forgot_pass' %}" style="justify-self: center;color: #fff">فراموشی رمز عبور</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+<script src={% static 'accounts/js/jquery.min.js' %}></script>
+<script src={% static 'accounts/js/popper.js' %}></script>
+<script src={% static 'accounts/js/bootstrap.min.js' %}></script>
+<script src={% static 'accounts/js/main.js' %}></script>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <!--<p style="color: #ffffff;margin-top: -4%;margin-left: 1%">{{ user.Full_name|upper }}</p>-->
+    <script src="{% static 'accounts/js/CircularLoader.js' %}"></script>
+    <div id="divProgress"></div>
+    <div style="display: flex; justify-content: space-between;margin-left: 5%;margin-right: 5%">
+        <div class="chart-container">
+            <div id="divProgress1"></div>
+                <div class="remaining-text" style="color: white;">
+                    باقی مانده: {{ sick_day }} روز
+                    و{{ sick_hour }}ساعت
+                    و{{ sick_min }}دقیقه
+                </div>
+        </div>
+        <div class="chart-container">
+            <div id="divProgress2"></div>
+                <div class="remaining-text" style="color: white;">
+                    باقی مانده: {{ month_day }} روز
+                    و{{ month_hour }}ساعت
+                    و{{ month_min }}دقیقه
+                </div>
+
+        </div>
+        <div class="chart-container">
+            <div id="divProgress3"></div>
+                <div class="remaining-text" style="color: white;">
+                    باقی مانده: {{ year_day }} روز
+                    و{{ year_hour }}ساعت
+                    و{{ year_min }}دقیقه
+                </div>
+
+        </div>
+    </div>
+
+
+    <div style="margin-right: 5%; margin-top: 5%;">
+        {% if month_left <= 0 %}
+            <p style="color: white;" dir="rtl">در ماه جاری مرخصی استحقاقی ثبت نشده است.</p>
+        {% else %}
+            <p style="color: white;" dir="rtl">در ماه جاری شما {{ month_day_get }} روز و  {{ month_hour_get }}ساعت و {{month_min_get}}دقیقه  مرخصی استحقاقی گرفته اید.</p>
+        {% endif %}
+
+        {% if year_left <= 0 %}
+            <p style="color: white;" dir="rtl">در سال جاری مرخصی استحقاقی ثبت نشده است.</p>
+        {% else %}
+            <p style="color: white;" dir="rtl">در سال جاری شما {{ year_day_get }} روز و  {{ year_hour_get }}ساعت و {{year_min_get}}دقیقه  مرخصی استحقاقی گرفته اید.</p>
+        {% endif %}
+
+        {% if sick_left <= 0 %}
+            <p style="color: white;" dir="rtl">در سال جاری مرخصی استعلاجی ثبت نشده است.</p>
+        {% else %}
+            <p style="color: white;" dir="rtl">در ماه جاری شما {{ sick_day_get }} روز و  {{ sick_hour_get }}ساعت و {{sick_min_get}}دقیقه  مرخصی استعلاجی گرفته اید.</p>
+        {% endif %}
+
+        {% if user.number_of_with_out_pay <= 0 %}
+            <p style="color: white;" dir="rtl">در سال جاری مرخصی بدون حقوق ثبت نشده است.</p>
+        {% else %}
+            <p style="color: white;" dir="rtl">در سال جاری شما {{ user.number_of_with_out_pay }} ساعت مرخصی بدون حقوق گرفته اید.</p>
+        {% endif %}
+    </div>
+    <style>
+        .remaining-text {
+            text-align: center;
+            margin-top: 10px;
+        }
+        /* Customize the calendar container */
+        #persian-calendar-container {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+    <!-- Persian Date Picker Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/persian-date/0.6.2/persian-date.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/persian-datepicker/0.4.5/js/persian-datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/persian-datepicker/0.4.5/css/persian-datepicker.min.css">
+    <!-- Initialize the Persian Calendar -->
+    <script>
+        var picker = new Picker(document.getElementById('persian-calendar-container'), {
+            initialValue: true, // Show the initial value (current date)
+            maxDate: '1403-12-30', // Set the maximum date (optional)
+            onSelect: function(selectedDate) {
+                // Handle date selection (if needed)
+            }
+        });
+    </script>
+    <!-- Additional scripts (if any) -->
+    <script>
+        $(document).ready(function () {
+            $("#divProgress1").circularloader({
+                progressBarColor: "#FF6384",
+                progressPercent: ({{ user.number_of_sick_leave_left }}) / 1440 * 100,
+                title: "استعلاجی"
+            });
+
+            $("#divProgress2").circularloader({
+                progressBarColor: "#36A2EB",
+                progressPercent: ({{ user.number_of_month_leave_left }}) / 1200 * 100,
+                title: "ماهانه"
+            });
+
+            $("#divProgress3").circularloader({
+                progressBarColor: "#FFCE56",
+                progressPercent: ({{ user.number_of_year_leave_left }}) / 13440 * 100,
+                title: "سالانه"
+            });
+        });
+    </script>
+{% endblock %}

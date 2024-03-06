@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container-fluid pt-4 pb-5" style="background: rgba(0,0,0,0); overflow-y: scroll; max-height: 550px;" dir="rtl">
+        <div class="container" style="background: rgba(0,0,0,0);">
+            <div class="row justify-content-center" style="background: rgba(0,0,0,0);">
+                <div class="col-md-8" style="background: rgba(0,0,0,0); ">
+                    <div class="card shadow rounded-lg p-4" style="margin-top:0px;background: rgba(0,0,0,0);">
+                        <h2 style="color: white">افزودن درخواست</h2>
+                        <form action="" method="post" novalidate>
+                            {% csrf_token %}
+                            <div class="form-group" id="leave-type-container">
+                                <label for="id_Leave_type">نوع مرخصی:</label>
+                                <select name="Leave_type" class="form-control" required id="id_Leave_type">
+                                    <option value="" selected>----انتخاب کنید----</option>
+                                    <option value="entitlement">استحقاقی</option>
+                                    <option value="illness">استعلاجی</option>
+                                    <option value="unpaid">بدون حقوق</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="leave-type-type-container">
+                                <label for="id_Leave_type_type">مدت زمان</label>
+                                <select name="Leave_type_type" class="form-control" required id="id_Leave_type_type">
+                                    <option value="" selected>----انتخاب کنید----</option>
+                                    <option value="hourly">ساعتی</option>
+                                    <option value="daily">روزانه</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="from-hour-container">
+                                <label for="id_from_hour">ساعت شروع:</label>
+                                <div class="input-group clockpicker">
+                                    {{ form.from_hour }}
+                                    <span class="input-group-addon" style="background: transparent;border: none;">
+                                        <span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="to-hour-container">
+                                <label for="id_to_hour">ساعت پایان:</label>
+                                <div class="input-group clockpicker" >
+                                    {{ form.to_hour }}
+                                    <span class="input-group-addon" style="background: transparent;border: none;">
+                                        <span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="from-day-container">
+                                <label for="id_from_day">تاریخ شروع:</label><br>
+                                {{ form.from_day }}
+                            </div>
+
+                            <div class="form-group" id="to-day-container">
+                                <label for="id_to_day">تاریخ پایان:</label><br>
+                                {{ form.to_day }}
+                            </div>
+
+                            <div class="form-group" id="work-day-container">
+                                <label for="id_work_day">تعداد روز کاری:</label><br>
+                                {{ form.work_day }}
+                            </div>
+
+                            <div class="form-group" id="reason-container">
+                                <label for="id_Reason">دلیل مرخصی:</label><br>
+                                {{ form.Reason }}
+                            </div>
+
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-success btn-lg" style="margin-top: 10px;margin-right: 900px;">افزودن</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        /* Make form fields text bold and change color */
+        .form-group input[type="text"],
+        .form-group textarea,
+        .form-group select[name="Leave_type"],
+        .form-group select[name="Leave_type_type"],
+        .form-group input[name="work_day"] {
+            background-color: transparent !important;
+            font-weight: bold;
+            color: black; /* Change to the desired text color */
+        }
+        .form-group label {font-weight: bold; color: white}
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.clockpicker').clockpicker({
+                autoclose: true,
+                twelvehour: false // 24-hour format
+            });
+            $('#id_from_hour, #id_to_hour').attr('autocomplete', 'off');
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Initially hide the fields and labels if Leave_type_type is 'hourly'
+            if ($("#id_Leave_type_type").val() === "daily") {
+                $("#from-hour-container").hide();
+                $("#to-hour-container").hide();
+            }
+
+            // Listen for changes in the Leave_type_type field
+            $("#id_Leave_type_type").on("change", function () {
+                if ($(this).val() === "daily") {
+                    $("#from-hour-container").hide();
+                    $("#to-hour-container").hide();
+                } else {
+                    $("#from-hour-container").show();
+                    $("#to-hour-container").show();
+                }
+            });
+        });
+     $(document).ready(function () {
+            // Initially hide the fields and labels if Leave_type_type is 'hourly'
+            if ($("#id_Leave_type_type").val() === "hourly") {
+                $("#to-day-container-container").hide();
+            }
+
+            // Listen for changes in the Leave_type_type field
+            $("#id_Leave_type_type").on("change", function () {
+                if ($(this).val() === "hourly") {
+                    $("#to-day-container").hide();
+                    $("#work-day-container").hide();
+                } else {
+                    $("#to-day-container").show();
+                    $("#work-day-container").show();
+                }
+            });
+        });
+    </script>
+
+</head>
+{% endblock %}
